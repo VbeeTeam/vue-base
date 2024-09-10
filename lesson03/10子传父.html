@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p>我是根组件</p>
+        <!-- 父组件不能直接调用子组件数据 -->
+        <!-- <p>{{ childMsg }}</p> -->
+        <!-- 2、父组件接收子组件数据，通过v-on绑定传递过来的事件名称，用一个函数方法接收 -->
+        <child @childfun="fatherFun"></child>
+    </div>
+</body>
+</html>
+<script src="js/vue-2.4.0.js"></script>
+<script>
+
+    var vm = new Vue({
+        el: "#app",
+        data: {},
+        methods: {
+            // 3、接收的函数方法默认第一个参数是子组件传递的数据
+            fatherFun(param){
+                console.log("子组件传递的数据：", param);
+            }
+        },
+        components: {
+            // 子组件不能使用data属性,要使用data方法,通过ruturn返回函数结果数据,子组件调用数据,进行渲染
+            child: {
+                template:"<div><h3>我是子组件 - {{ childMsg }}</h3><button @click='toTather'>给父组件数据</button></div>",
+                // data: {
+                //     childMsg: "我是子组件的数据"
+                // }
+                data(){
+                    return {
+                        childMsg: "我是子组件的数据"
+                    }
+                },
+                methods: {
+                    // 点击按钮给父组件传参
+                    toTather(){
+                        // console.log(this.childMsg);
+                        // 1、子组件给父组件传递数据，通过$emit方法映射触发一个事件，传递数据
+                        this.$emit("childfun", this.childMsg);
+                    }
+                }
+            }
+        }
+    })
+
+</script>

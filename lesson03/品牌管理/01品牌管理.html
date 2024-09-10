@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>品牌管理</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <div id="app">
+        <h3>品牌管理</h3>
+        <section>
+            <form>
+                ID: <input type="text" v-model="cartId" />
+                Name: <input type="text" v-model="name" />
+                Status: <input type="text" placeholder="0:未出库1:已出库2:已成交" v-model="status" />
+                <input type="button" value="添加" @click="add" />
+                输入Name: <input type="text" v-model="keyword" placeholder="请输入车名查询" @input="search" />
+            </form>
+            <table border="1" cellspacing="0" width="100%">
+                <thead>
+                    <tr height="50">
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Ctime</th>
+                        <th>Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- search()拿到了函数返回的数组，测试search()就是数组 -->
+                    <tr v-for="(item,index) in search()" :key="item.id" height="50" align="center">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td v-if="item.status == 0">未出库</td>
+                        <td v-else-if="item.status == 1">已出库</td>
+                        <td v-else-if="item.status == 2">已成交</td>
+                        <td v-else>您胡输入呢！</td>
+                        <td>{{ item.ctime | dateFormat }}</td>
+                        <td><a href="#" @click="edit(item)">修改</a> | <a href="#" @click="del(index)">删除</a></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </section>
+        <div class="model" v-show="modelBoolean">
+            <div class="mask"></div>
+            <form>
+                Name: <input type="text" v-model="changeName" /><br /><br />
+                Status: <input type="text" placeholder="0:未出库1:已出库2:已成交" v-model="changeStatus" /><br /><br />
+                <input type="button" value="修改" @click="change" />
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="js/vue-2.4.0.js"></script>
+<script>
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            cartId: null,
+            name: null,
+            status: null,
+            keyword: null,
+            changeName: null,
+            changeStatus: null,
+            modelBoolean: false,
+            changeId: null,
+            list: [
+                {
+                    id: 1,
+                    name: "宝马",
+                    status: 0,
+                    ctime: new Date()
+                },
+                {
+                    id: 2,
+                    name: "奔驰",
+                    status: 1,
+                    ctime: new Date()
+                },
+                {
+                    id: 3,
+                    name: "奥迪",
+                    status: 2,
+                    ctime: new Date()
+                }
+            ]
+        },
+        methods: {
+            add() {
+                if (this.cartId && this.name && this.status) {
+                    // 1.拿到输入框输入的内容
+                    // console.log(this.cartId);
+                    // console.log(this.name);
+                    // console.log(this.status);
+                    // 2.把取到的内容添加到数组里
+                    // 数据操作dom
+                    this.list.push({
+                        id: this.cartId,
+                        name: this.name,
+                        status: this.status,
+                        ctime: new Date()
+                    })
+                } else {
+                    alert("请输入完整添加信息");
+                }
+            },
+            // 搜索
+            search() {
+                if (this.keyword) {
+                    // 根据关键字标准查询
+                    console.log(this.keyword);
+                    var arr = []
+                    // this.list.forEach((item) => {
+                    //     // console.log(item)
+                    //     if (item.name == this.keyword) {
+                    //         console.log(item);
+                    //         arr.push(item)
+                    //     }
+                    // })
+                    // 把查出来的数据赋值给list数组重新渲染dom
+                    // this.list = arr;
+
+                    //模糊查询
+                    // this.list.forEach((item) =>{
+                    //     if(item.name.indexOf(this.keyword) != -1){
+                    //         arr.push(item);
+                    //     }
+                    // })
+                    // this.list = arr;
+
+                    // ES6提供了一个新方法includes()包含 返回结果true、false
+                    // this.list.forEach((item) => {
+                    //     if(item.name.includes(this.keyword)){
+                    //         arr.push(item);
+                    //     }
+                    // });
+
+                    // filter过滤返回的是一个新数组
+                    return this.list.filter((item) => {
+                        if (item.name.includes(this.keyword)) {
+                            return item;
+                        }
+                    })
+                    // return arr;
+                } else {
+                    return this.list;
+                }
+            },
+            // 删除
+            del(i) {
+                console.log(i);
+                // 根据下标删除数组中的元素
+                this.list.splice(i, 1);
+            },
+            // 修改
+            edit(obj){
+                this.modelBoolean = true;//显示model模态窗口
+                console.log(obj); //传递下来的参数
+                this.changeName = obj.name;
+                this.changeStatus = obj.status;
+                this.changeId = obj.id;
+            },
+            change(){
+                this.modelBoolean = false; //隐藏model模态窗口
+
+                // 循环数组查出被修改那条数据的id
+                this.list.forEach((item)=>{
+                    if(item.id == this.changeId){
+                        item.name = this.changeName; //绑定的数据双向绑定的值
+                        item.status = this.changeStatus;
+                    }
+                })
+            }
+        },
+        filters: {
+            // 私有过滤时间的方法
+            dateFormat(date) {
+                // console.log(date);
+                var dt = new Date(date);
+                // 获取年
+                var y = dt.getFullYear()
+                // console.log(y)
+                // 获取月
+                var m = (dt.getMonth() + 1).toString().padStart(2, "0");
+                // m = m < 10 ? "0" + m : m
+                // console.log(m);
+                // 获取日
+                var d = dt.getDate().toString().padStart(2, "0");
+                // d = d < 10 ? "0" + d : d
+                // console.log(d);
+                // 获取时
+                var hh = dt.getHours().toString().padStart(2, "0");
+                // hh = hh < 10 ? "0" + hh : hh
+                // 获取分
+                var mm = dt.getMinutes().toString().padStart(2, "0");
+                // mm = mm < 10 ? "0" + mm : mm
+                // 获取秒
+                var ss = dt.getSeconds().toString().padStart(2, "0");
+                // ss = ss < 10 ? "0" + ss : ss;
+                return `${y} - ${m} - ${d}  ${hh} : ${mm} : ${ss}`;
+            }
+        }
+    })
+
+</script>

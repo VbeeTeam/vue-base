@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .v-enter-active,.v-leave-active{
+            transition: all .5s ease;
+        }
+        .v-enter,.v-leave-to{
+            opacity: 0;
+            transform: translateX(200px);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- <input type="button" value="登录" @click="showBoolean = true"/>
+        <input type="button" value="注册" @click="showBoolean = false" /> -->
+        <!-- mode:设置动画模式，一出一进 -->
+        <!-- <transition mode="out-in">
+            <login v-if="showBoolean"></login>
+            <register v-else></register>
+        </transition> -->
+        <!-- 优化 通过组件名切换 使用component组件标签上的name名进行切换组件-->
+        <input type="button" value="登录" @click="isName = 'login'"/>
+        <input type="button" value="注册" @click="isName = 'register'" />
+        <transition mode="out-in">
+            <component :is="isName"></component>
+        </transition>
+    </div>
+</body>
+</html>
+<script src="js/vue-2.4.0.js"></script>
+<script>
+    Vue.component("login", {
+        template: "<h3>登录组件</h3>"
+    })
+    Vue.component("register", {
+        template: "<h3>注册组件</h3>"
+    })
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            showBoolean: true,
+            isName: "login"
+        },
+        // beforeDestroy(){
+        //     console.log("开始销毁")
+        // },
+        // destroyed(){
+        //     console.log("已经销毁")
+        // }
+    })
+</script>

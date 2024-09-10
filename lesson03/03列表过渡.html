@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        li{
+            border: 1px dashed #ccc;
+            padding: 8px;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+        li:hover{
+            background-color: pink;
+        }
+
+        .v-enter-active,.v-leave-active{
+            transition: all 1s ease;
+        }
+        .v-enter,.v-leave-to{
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        ID: <input type="text" v-model="nameId" />
+        Name: <input type="text" v-model="name" />
+        <input type="button" value="添加" @click="add" />
+
+        <!-- <ul> -->
+        <!-- transition-group设置tag属性为ul，指定transition-group为ul标签 -->
+        <!-- appear 动画过渡入场 -->
+        <transition-group appear tag="ul">
+            <li v-for="(item,index) in list" :key="item.id" @click="del(index)">{{ item.id }} -- {{ item.name }}</li>
+        </transition-group>
+        <!-- </ul> -->
+
+    </div>
+</body>
+</html>
+<script src="js/vue-2.4.0.js"></script>
+<script>
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            nameId: null,
+            name: null,
+            list:[
+                {
+                    id: 1,
+                    name: "岳飞"
+                },
+                {
+                    id: 2,
+                    name: "林则徐"
+                },
+                {
+                    id: 3,
+                    name: "范仲淹"
+                },
+                {
+                    id: 4,
+                    name: "关羽"
+                }
+            ]
+        },
+        methods:{
+            add(){
+                console.log(this.nameId,this.name)
+                this.list.push({id: this.nameId, name: this.name});
+            },
+            del(index){
+                console.log(index)
+                this.list.splice(index, 1);
+            }
+        }
+    })
+
+</script>

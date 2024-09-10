@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件的通信之父传子</title>
+</head>
+<body>
+    <!-- 根组件,祖宗级组件 -->
+    <div id="app">
+        <p>{{ msg }}</p>
+        <!-- 子组件child -->
+        <!-- 父组件向子组件传参,通过v-bind:属性="父组件的数据"在子组件上声明 -->
+        <child :father="msg" :father2="msg2"></child>
+    </div>
+</body>
+</html>
+<script src="js/vue-2.4.0.js"></script>
+<script>
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "我是父组件的数据",
+            msg2: true
+        },
+        methods:{
+
+        },
+        components:{
+            // 子组件不能直接使用父组件的数据
+            child: {
+                template: "<h3>我是子组件h3-{{ father }}-{{ father2 }}</h3>",
+                // 子组件接收父组件数据用props属性
+                // props: ["father", "father2"]
+                props:{
+                    father:{
+                        type: String
+                    },
+                    father2:{
+                        type: Boolean
+                    }
+                }
+            }
+        }
+    })
+
+</script>

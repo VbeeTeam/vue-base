@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+h3{
+    line-height: 50px;
+    background-color:beige;
+    text-align: center;
+}
+section{
+    background-color: cadetblue;
+}
+form{
+    padding: 20px 0;
+    text-align: center;
+}
+form input{
+    border: none;
+    outline: none;
+    padding: 8px 12px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+.mask{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.model form{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+}
+.model input{
+    border: 1px solid #ccc;
+}

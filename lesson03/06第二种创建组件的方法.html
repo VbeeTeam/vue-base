@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 调用组件 -->
+        <mycom></mycom>
+    </div>
+</body>
+</html>
+<script src="js/vue-2.4.0.js"></script>
+<script>
+    // 创建组件
+    // template模板内容必须只能有一个根元素
+    Vue.component("mycom", {
+        template: "<div><div>我是一个div</div><p>我是段落</p></div>"
+    })
+
+    var vm = new Vue({
+        el: "#app",
+        data:{},
+        methods:{}
+    })
+
+</script>

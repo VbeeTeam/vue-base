@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 调用组件 -->
+        <!-- <mycom></mycom> -->
+        <my-com></my-com>
+    </div>
+</body>
+</html>
+<script src="js/vue-2.4.0.js"></script>
+<script>
+
+    // 全局组件
+    // template 模板
+    var com = Vue.extend({
+        template: "<h3>我是一个三级标题</h3>"
+    })
+    // Vue.component("组件名称", 创建的组件)
+    // 组件名称是小写直接用组件名称作为标签调用
+    // 组件名称是驼峰命名，要用-代替大写字母并且改为小写
+    // Vue.component("mycom", com);
+    Vue.component("myCom", com);
+
+    var vm = new Vue({
+        el: "#app",
+        data:{},
+        methods:{}
+    })
+
+</script>

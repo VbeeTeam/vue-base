@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        .v-enter-active,.v-leave-active{
+            /* 所有的动画过渡事件 */
+            transition: all .5s ease;
+        }
+        .v-enter,.v-leave-to{
+            opacity: 0;
+            transform: translateX(200px);
+        }
+
+        .my-enter-active,.my-leave-active{
+            transition: all .5s ease;
+        }
+        .my-enter,.my-leave-to{
+            opacity: 0;
+            transform: translateY(100px);
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="控制X轴" @click="titBoolean = !titBoolean" />
+
+        <transition>
+            <h3 v-show="titBoolean">我是一个三级标题</h3>
+        </transition>
+        
+        <input type="button" value="控制Y轴" @click="titBoolean2 = !titBoolean2" />
+
+        <transition name="my">
+            <h3 v-show="titBoolean2">我是一个三级标题</h3>
+        </transition>
+
+    </div>
+</body>
+</html>
+<script src="js/vue-2.4.0.js"></script>
+<script>
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            titBoolean: true,
+            titBoolean2: true
+        },
+        methods: {}
+    })
+
+</script>

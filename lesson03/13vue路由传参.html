@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .active{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- <router-link to="/detail?id=1">跳转详情</router-link>
+        <router-link to="/cart/2/张三">跳转购物车</router-link> -->
+
+        <router-link :to="{path: '/detail', query:{id: 5}}">跳转详情</router-link>
+        <router-link :to="{name: 'Cart', params:{id: 6}}">跳转购物车</router-link>
+
+        <!-- <button @click="toDetail">跳转详情</button>
+        <button @click="toCart">跳转购物车</button> -->
+
+        <!-- 占位视图 -->
+        <router-view></router-view>
+    </div>
+</body>
+</html>
+<script src="js/vue-2.4.0.js"></script>
+<script src="js/vue-router-3.0.1.js"></script>
+<script>
+    // 详情页面组件
+    var detail = {
+        template: "<h3>详情页面--{{this.$route.query.id}}</h3>",
+        created(){
+            console.log(this.$route)
+            console.log("传过来的参数：", this.$route.query.id)
+        }
+    }
+    // 购物车页面组件
+    var cart = {
+        template: "<h3>购物车页面--{{this.$route.params.id}}</h3>",
+        created(){
+            console.log("购物车：", this.$route.params)
+        }
+    }
+
+    // 创建路由实例
+    var router = new VueRouter({
+        routes: [
+            {
+                path: "/detail",
+                component: detail
+            },
+            // {
+            //     path: "/cart/:id/:name",
+            //     component: cart
+            // }
+            {
+                path: "/cart",
+                name: "Cart",
+                component: cart
+            }
+        ],
+        linkActiveClass: "active"
+    })
+
+    var vm = new Vue({
+        el: "#app",
+        data: {},
+        methods: {
+            // 跳转详情
+            toDetail(){
+                // 路由跳转组件页面传参（通过path路径跳转及query传参）
+                this.$router.push({path: "/detail", query:{id: 3}})
+            },
+            // 跳转购物车
+            toCart(){
+                // 路由跳转组件页面（通过name名跳转路径及params传参）
+                this.$router.push({name: "Cart", params:{id:4, name: "李四"}})
+            }
+        },
+        router
+    })
+
+</script>

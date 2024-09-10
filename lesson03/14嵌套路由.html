@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>嵌套路由</title>
+    <style>
+        .v-enter-active,
+        .v-leave-active {
+            transition: all .5s ease;
+        }
+
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translateY(100px);
+        }
+        .active{
+            color: aqua;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to="/father">父页面</router-link>
+        <!-- 占位路由视图 -->
+        <transition mode="out-in">
+            <router-view></router-view>
+        </transition>
+    </div>
+    <template id="father">
+        <div>
+            <h1>我是父组件页面</h1>
+            <!-- 按钮链接 -->
+            <router-link to="/father/login">登录</router-link>
+            <router-link to="/father/register">注册</router-link>
+            <!-- 占位路由视图 -->
+            <transition mode="out-in">
+                <router-view></router-view>
+            </transition>
+        </div>
+    </template>
+</body>
+
+</html>
+<script src="js/vue-2.4.0.js"></script>
+<script src="js/vue-router-3.0.1.js"></script>
+<script>
+    // 父页面组件
+    var father = {
+        template: "#father"
+    }
+    // 登录组件
+    var login = {
+        template: "<h1>登录组件页面</h1>"
+    }
+    // 注册组件
+    var register = {
+        template: "<h1>注册组件页面</h1>"
+    }
+
+    // 创建路由对象
+    var router = new VueRouter({
+        routes: [
+            {
+                path: "/father",
+                component: father,
+                children: [
+                    {
+                        path: "login",
+                        component: login
+                    },
+                    {
+                        path: "register",
+                        component: register
+                    }
+                ]
+            }
+        ],
+        linkActiveClass: "active"
+    })
+
+    var vm = new Vue({
+        el: "#app",
+        data: {},
+        methods: {},
+        watch: {
+            // 监听路由变化
+            "$route.path"(newPath, oldPath){
+                console.log("路由变化：", newPath, oldPath)
+            }
+        },
+        router //把路由注册到vue实例里
+    })
+
+</script>

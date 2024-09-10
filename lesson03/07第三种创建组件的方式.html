@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>初体验vue</title>
+</head>
+<body>
+  
+    <div id="app">
+        <!-- <login></login> -->
+       <tpl></tpl>
+    </div>
+    <div id="app2">
+        <!-- login私有组件 -->
+        <login></login>
+        <tpl></tpl>
+    </div>
+
+    <template id="tpl">
+        <!-- 有且只能有一个根标签 -->
+        <div>
+            <h3>我是三级标题</h3>
+            <h4>我是四级标题</h4>
+        </div>
+    </template>
+
+    <template id="myTpl">
+        <h3>登录</h3>
+    </template>
+
+</body>
+</html>
+<!-- 导入vue的包 -->
+<script src="js/vue-2.4.0.js"></script>
+<script>
+
+    // 创建全局组件
+    Vue.component("tpl", {template: "#tpl"})
+    // new出来的Vue实例，就是我们MVVM中调度者
+    var vm = new Vue({
+        el: "#app", 
+        data: { 
+          
+        }
+    })
+    var vm = new Vue({
+        el: "#app2",
+        data: {
+
+        },
+        // 私有组件的属性
+        components: {
+            // 组件名称:{绑定模板视图}
+            login: {
+                template: "#myTpl"
+            }
+        }
+    })
+</script>

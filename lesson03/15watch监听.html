@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{ msg }}
+        <input type="button" value="按钮" @click="msg = 'data里的msg数据被修改了'" />
+    </div>
+</body>
+</html>
+<script src="js/vue-2.4.0.js"></script>
+<script src="js/vue-router-3.0.1.js"></script>
+<script>
+
+    var vm = new Vue({
+        el: "#app",
+        data:{
+            msg: "我是vue的数据"
+        },
+        methods:{},
+        // 数据更新之后
+        updated(){
+            console.log("updated", this.msg);
+        },
+        watch: {
+            // watch可以监听data数据的变化
+            msg(newVal, oldVal){
+                console.log(newVal, oldVal)
+            },
+            // watch还可以监听路由
+            "$route"(){
+                //去路由嵌套测试
+            }
+        }
+    })
+
+</script>

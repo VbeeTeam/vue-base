@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue路由</title>
+    <style>
+        .v-enter-active,.v-leave-active{
+            transition: all .5s ease;
+        }
+        .v-enter,.v-leave-to{
+            opacity: 0;
+            transform: translateX(200px);
+        }
+        .active{
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <login></login>
+        <register></register> -->
+        <!-- 跳转组件页面的导航 -->
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
+
+        <transition mode="out-in"> 
+            <!-- 占位视图，匹配显示的组件页面 -->
+            <router-view></router-view>
+        </transition>
+
+    </div>
+</body>
+
+</html>
+<script src="js/vue-2.4.0.js"></script>
+<script src="js/vue-router-3.0.1.js"></script>
+<script>
+    // 登录，注册组件
+    var login = {
+        template: "<h1>登录组件页面</h1>",
+        beforeDestroy(){
+            console.log("beforeDestroy：登录组件页面正在销毁")
+        },
+        destroyed(){//一般用于取消dom元素监听，用于清空定时器
+            console.log("destroyed：登录组件页面已经销毁")
+        }
+    }
+    var register = {
+        template: "<h1>注册组件页面</h1>",
+        beforeDestroy(){
+            console.log("beforeDestroy：注册组件页面正在销毁")
+        },
+        destroyed(){
+            console.log("destroyed：注册组件页面已经销毁")
+        }
+    }
+    // 创建vue路由实例
+    var router = new VueRouter({
+        routes: [
+            // redirect：重定向路由，让首页路由加载指定的路由页面
+            {
+                path: "/",
+                redirect: "/login" 
+            },
+            {
+                path: "/login",
+                component: login
+            },
+            {
+                path: "/register",
+                component: register
+            }
+        ],
+        linkActiveClass: "active"
+    })
+    var vm = new Vue({
+        el: "#app",
+        data: {},
+        methods: {},
+        components: {},
+        router:router
+    })
+    
+
+
+</script>

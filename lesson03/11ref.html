@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ref属性</title>
+</head>
+<body>
+    <div id="app">
+        <!-- ref：可以获取dom元素，也可以获取组件对象及组件数据、属性 -->
+        <input type="button" value="按钮" @click="test" />
+        <h2 ref="refTit">我是根组件的二级标题</h2>
+
+        <login ref="loginCom"></login>
+    </div>
+</body>
+</html>
+<script src="js/vue-2.4.0.js"></script>
+<script>
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            fatherMsg: "我是父组件的数据"
+        },
+        methods: {
+            test(){
+                console.log(this.$refs.refTit.innerText);
+                console.log(this.$refs.loginCom);
+                console.log(this.$refs.loginCom.childMsg);
+            }
+        },
+        components: {
+            login: {
+                template: "<div><h1>我是一级标题登录</h1><button @click='getFather'>拿父组件数据</button></div>",
+                data(){
+                    return{
+                        childMsg: "我是子组件的数据"
+                    }
+                },
+                methods:{
+                    getFather(){
+                        console.log("子拿父：",this.$parent.fatherMsg)
+                    }
+                }
+            }
+        }
+    })
+
+</script>
