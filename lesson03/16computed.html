@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <div id="app">
-        <input type="text" v-model="first" /> + 
+        <input type="text" v-model="first" /> +
         <input type="text" v-model="two" /> =
         <input type="text" v-model="result" />
+
+        <div class="hello">
+            <div id="example">
+                <p>firstName值: {{firstName}}</p>
+                <p>fullName值: {{fullName}}</p>
+            </div>
+            <button @click="ClickCeshi">点击改变fullName的值</button>
+        </div>
     </div>
 </body>
+
 </html>
 <script src="js/vue-2.4.0.js"></script>
 <script>
@@ -21,32 +32,49 @@
         el: "#app",
         data: {
             first: null,
-            two: null
-            // result: null
+            two: null,
+            // result: null,
+            firstName: 'Foo'
         },
         methods: {
             // 方法集合属性，实例化之后会重新初始化methods
+            ClickCeshi() {
+                this.fullName = 'fullName的新值'
+            }
+
         },
-        filters:{
+        filters: {
             // 私有过滤属性
         },
-        directives:{
+        directives: {
             // 私有自定义内置指令属性
         },
-        components:{
+        components: {
             // 私有组件属性
         },
-        watch:{
+        watch: {
             // 监听属性，可以监听data变化，监听路由变化
         },
-        computed:{
+        computed: {
             // 计算属性
             // 计算属性本身就是一个方法，计算属性在求值时，会将结果缓存起来，方便下次直接调用，
             // 如果计算属性里的值没有发生任何变价，即使调用了这个属性，也不会重新计算
-            result(){
+            result() {
                 console.log(this.first, this.two)
                 return Number(this.first) + Number(this.two);
+            },
+            fullName: {
+                get: function () {
+                    console.log('调用了getter属性')
+                    return '***' + this.firstName + '***'
+                },
+                set: function (newValue) {
+                    console.log('调用了settter属性')
+                    console.log(newValue)
+                    this.firstName = newValue
+                }
             }
+
         }
     })
 

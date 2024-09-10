@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <div id="app">
         {{ msg }}
         <input type="button" value="按钮" @click="msg = 'data里的msg数据被修改了'" />
+        <button @click="deepClick">深度</button>
     </div>
 </body>
+
 </html>
 <script src="js/vue-2.4.0.js"></script>
 <script src="js/vue-router-3.0.1.js"></script>
@@ -19,23 +23,47 @@
 
     var vm = new Vue({
         el: "#app",
-        data:{
-            msg: "我是vue的数据"
+        data: {
+            msg: "我是vue的数据",
+            user: {
+                name: 'Alice',
+                age: 30,
+                address: {
+                    city: 'Beijing',
+                    country: 'China'
+                }
+            }
+
         },
-        methods:{},
+        methods: {
+            deepClick() {
+                // 修改 user 对象中的属性
+                this.user.name = 'Bob'; // 这里会触发 watch 中的处理函数
+                this.user.address.city = 'Shanghai'; // 这里同样会触发 watch 中的处理函数，因为设置了深度监听
+            }
+        },
         // 数据更新之后
-        updated(){
+        updated() {
             console.log("updated", this.msg);
         },
         watch: {
             // watch可以监听data数据的变化
-            msg(newVal, oldVal){
+            msg(newVal, oldVal) {
                 console.log(newVal, oldVal)
             },
             // watch还可以监听路由
-            "$route"(){
+            "$route"() {
                 //去路由嵌套测试
-            }
+            },
+            user: {
+                handler: function (newUser, oldUser) {
+                    console.log('用户信息发生变化：', newUser, oldUser);
+                },
+                deep: true // 设置 deep 选项为 true，实现深度监听
+            },
+            // user(newVal, oldVal) {
+            //     console.log('用户信息发生变化：',newVal, oldVal)
+            // },
         }
     })
 
